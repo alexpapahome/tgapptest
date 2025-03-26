@@ -26,7 +26,7 @@ var result = MD5(value);
 document.getElementById("content").innerHTML = result;
 document.getElementById('userId').textContent = value;
 
-fetch('https://api.telegra.ph/getPage/' + value + '-03-26?return_content=true')
+fetch('https://api.telegra.ph/getPage/' + result + '-03-26?return_content=true')
 .then(response => response.text())
 .then(data => {
 	console.log(data);
