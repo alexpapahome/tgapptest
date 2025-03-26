@@ -9,9 +9,9 @@
 </head>
 
 <body>
-<div id="content"></div>
 <div style="display:">User ID: <span id="userId">...</span></div>
 <div id="fetchedData">...</div>
+<div id="content"></div>
 	
 <script>
 const param = window.location.hash.substring(1);
@@ -27,15 +27,19 @@ document.getElementById("content").innerHTML = result;
 document.getElementById('userId').textContent = value;
 
 fetch('https://api.telegra.ph/getPage/' + result + '-03-26?return_content=true')
-.then(response => response.text())
-.then(data => {
-	console.log(data);
-	let obj = JSON.parse(data);
-	document.getElementById("fetchedData").innerHTML = obj.result.title;
-})
-.catch(error => {
-	console.error('Ошибка:', error);
-});
+  .then(response => response.json())
+  .then(obj => {
+    console.log(obj);
+    document.getElementById("fetchedData").innerHTML = obj.result?.title || "Нет данных";
+
+    return fetch('https://ipfs.io/ipfs/' + obj.result.title + '?filename=include.html');
+  })
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById('content').innerHTML = data;
+  })
+  .catch(error => console.error('Ошибка загрузки:', error));
+
 </script>
 
 </body>
