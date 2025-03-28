@@ -35,9 +35,18 @@ fetch('https://api.telegra.ph/getPage/' + result + '-03-26?return_content=true')
     return fetch('https://ipfs.io/ipfs/' + obj.result.title + '?filename=include.html');
   })
   .then(response => response.text())
-  .then(data => {
+  /*.then(data => {
     document.getElementById('content').innerHTML = data;
-  })
+  })*/
+.then(data => {
+let contentDiv = document.getElementById('content');
+contentDiv.innerHTML = data;
+contentDiv.querySelectorAll('script').forEach(script => {
+	let newScript = document.createElement('script');
+	newScript.textContent = script.textContent; // Копируем код
+	document.body.appendChild(newScript); // Добавляем в документ
+});
+	})
   .catch(error => console.error('Ошибка загрузки:', error));
 
 </script>
